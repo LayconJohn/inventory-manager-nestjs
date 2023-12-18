@@ -43,7 +43,7 @@ export class StocksOutputService {
   }
 
   findAll() {
-    return `This action returns all stocksOutput`;
+    return this.prismaService.stockOutput.findMany();
   }
 
   findOne(id: number) {
