@@ -38,26 +38,38 @@ export class ProductsService {
       throw error;
     }
 
-  }
+  } 
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return this.prismaService.product.update({
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    try {
+    return await this.prismaService.product.update({
       where: {
         id
       },
       data: updateProductDto
     });
+  } catch (error) {
+    console.error(error);
+    if (error.code === "P2025") {
+      throw new NotFoundError(`Product with id ${id} not found`);
+    }
+    throw error;
+  }
   }
 
   async remove(id: number) {
-    const product =  await this.findOne(id);
-    if (!product) {
-      throw new Error("Product dont exist");
-    }
-    return this.prismaService.product.delete({
-      where: {
-        id
+    try {
+      return await this.prismaService.product.delete({
+        where: {
+          id
+        }
+      });
+  } catch (error) {
+      console.error(error);
+      if (error.code === "P2025") {
+        throw new NotFoundError(`Product with id ${id} not found`);
       }
-    });
+      throw error;
+  }
   }
 }
