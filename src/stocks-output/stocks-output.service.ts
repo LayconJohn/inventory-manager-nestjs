@@ -33,7 +33,7 @@ export class StocksOutputService {
         },
         data: {
           quantity: {
-            increment: createStocksOutputDto.quantity
+            decrement: createStocksOutputDto.quantity
           }
         }
       }),
@@ -46,8 +46,20 @@ export class StocksOutputService {
     return this.prismaService.stockOutput.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stocksOutput`;
+  async findOne(id: number) {
+      try {
+        return await this.prismaService.stockOutput.findUniqueOrThrow({
+          where: {
+            id
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        if (error.code === 'P2025') {
+          throw new NotFoundError(`Stock output with id ${id} not found`);
+        }
+        throw error;
+      }
   }
 
 }
