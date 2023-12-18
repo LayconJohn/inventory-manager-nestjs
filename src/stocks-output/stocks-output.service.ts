@@ -18,6 +18,15 @@ export class StocksOutputService {
       throw new NotFoundError("Product not found");
     }
 
+
+    if(product.quantity === 0) {
+
+    }
+
+    if(createStocksOutputDto.quantity > product.quantity || product.quantity - createStocksOutputDto.quantity < 0) {
+      
+    }
+
     const result = await this.prismaService.$transaction([
       this.prismaService.stockOutput.create({
         data: {

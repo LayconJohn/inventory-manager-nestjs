@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NotFoundErrorFilter } from './not-found-error/not-found-error.filter';
+import { BadRequestErrorFilter } from './bad-request-error/bad-request-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,8 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(
-    new NotFoundErrorFilter()
+    new NotFoundErrorFilter(),
+    new BadRequestErrorFilter()
   )
 
   //pipes
