@@ -22,8 +22,8 @@ export class ProductsService {
     return this.prismaService.product.findMany({});
   }
 
-  findOne(id: number) {
-    return this.prismaService.product.findUnique({
+  async findOne(id: number) {
+    return await this.prismaService.product.findUnique({
       where: {
         id
       }
@@ -39,7 +39,11 @@ export class ProductsService {
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const product =  await this.findOne(id);
+    if (!product) {
+      throw new Error("Product dont exist");
+    }
     return this.prismaService.product.delete({
       where: {
         id
