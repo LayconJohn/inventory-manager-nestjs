@@ -46,7 +46,7 @@ export class StocksInputService {
   }
 
   findAll() {
-    return `This action returns all stocksInput`;
+    return this.prismaService.stockInput.findMany();
   }
 
   findOne(id: number) {
