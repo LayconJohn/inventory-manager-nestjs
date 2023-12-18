@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStocksOutputDto } from './dto/create-stocks-output.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { NotFoundError } from 'src/errors/index';
+import { BadRequestError, NotFoundError } from 'src/errors/index';
 
 @Injectable()
 export class StocksOutputService {
@@ -20,11 +20,11 @@ export class StocksOutputService {
 
 
     if(product.quantity === 0) {
-
+      throw new BadRequestError("Product out of stock");
     }
 
     if(createStocksOutputDto.quantity > product.quantity || product.quantity - createStocksOutputDto.quantity < 0) {
-      
+      throw new BadRequestError("Insufficient product quantity");
     }
 
     const result = await this.prismaService.$transaction([
