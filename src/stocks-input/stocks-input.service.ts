@@ -49,8 +49,20 @@ export class StocksInputService {
     return this.prismaService.stockInput.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stocksInput`;
+  async findOne(id: number) {
+    try {
+      return await this.prismaService.stockInput.findUniqueOrThrow({
+        where: {
+          id
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      if (error.code === "P2025") {
+        throw new NotFoundError(`Stock input with id ${id} not found`);
+      }
+      throw error;
+    }
   }
 
 }
