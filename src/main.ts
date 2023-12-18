@@ -8,7 +8,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      errorHttpStatusCode: 422
+      errorHttpStatusCode: 422,
+      transform: true
     })
   );
 
