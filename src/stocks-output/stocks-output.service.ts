@@ -11,7 +11,7 @@ export class StocksOutputService {
 
   
   async create(createStocksOutputDto: CreateStocksOutputDto) {
-    const product = await this.prismaService.stockOutput.findUnique({
+    const product = await this.prismaService.product.findUnique({
       where: {id: createStocksOutputDto.product_id}
     });
     if(!product) {
@@ -36,7 +36,7 @@ export class StocksOutputService {
         }
       }),
 
-      this.prismaService.stockOutput.update({
+      this.prismaService.product.update({
         where: {
           id: createStocksOutputDto.product_id
         },
