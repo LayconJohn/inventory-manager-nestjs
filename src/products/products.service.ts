@@ -19,7 +19,7 @@ export class ProductsService {
   }
 
   findAll() {
-    return `This action returns all products`;
+    return this.prismaService.product.findMany({});
   }
 
   findOne(id: number) {
